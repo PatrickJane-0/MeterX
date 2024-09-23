@@ -1,0 +1,14 @@
+.idea
+.idea/
+**/venv
+**/node_modules/
+/node_modules
+*node_modules*
+**/build
+**/build
+**/build/**
+KraGToken/build/**
+/__pycache__/
+__pycache__
+*__pycache__*
+*artifacts*
