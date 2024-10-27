@@ -2,7 +2,7 @@
 pragma solidity ^0.8.26;
 
 import "./MeterManagement.sol";
-
+import "hardhat/console.sol";
 // Bottom most child contract conforming to ERC20 token standard
 contract EsoToken is MeterManagement {
     string constant kname = "Eso Token: 1 token = 1kWh";
@@ -13,5 +13,6 @@ contract EsoToken is MeterManagement {
     constructor()
         MeterManagement(kname,ksymbol,kdecimals)
     {
+        console.log("EsoToken constructor msg.sender is  %s",msg.sender);
     }
 }

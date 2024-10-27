@@ -43,3 +43,13 @@ A link to the final implemenation report can be found [here](https://github.com/
 <p align="center">
   <img src="https://raw.githubusercontent.com/SoIidarity/meterblock/master/Images/Testing%20Setup.jpg" alt="implementation"/>
 </p>
+
+
+nus requirement:
+Smart meters are the key devices in smart grid systems. They are used to measure the usage of electricity and communicate with the power plant for other functionalities such as calculating the bills,
+ bidding the price, demanding the amount of the electricity ect. A severe concern of deploying such smart devices is that the information collected by the smart meters are sent to the power plant which 
+ may glimpse user privacy from the received data, e.g., a user is probably at home in the hours that the usage of the electricity is at peak. Therefore, a trusted mediator is a straightforward solution 
+ to handle the data processing, bill calculating, price bidding and electricity allocating. As blockchain is a trusted decentralised authority which provide security, it is a perfect mediator for the 
+ above mentioned tasks. This project aims to 
+(1) Design a blockchain based mediator for the smart grid system which provide better privacy for users 
+(2) Formally verify the security and privacy of the design

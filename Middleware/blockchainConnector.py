@@ -1,25 +1,15 @@
 # blockchain imports
 from web3 import Web3, HTTPProvider
+from eth_account import Account
+from eth_account.signers.local import LocalAccount
 # from web3.contract import ConciseContract
 
 # other imports
 import json
 import colours
-import sys
+import sys,time
 import os
 
-
-# try:
-#     meterID = int(os.environ['METERID'])
-#     colours.printGreen("Enviroment Variable included! Using MeterID: " + str(meterID))
-
-# except:
-#     colours.printRed("Could not find meterID...please set the enviroment var")
-#     sys.exit()
-
-
-# web3Provider = 'http://localhost:8545'
-# web3Provider = 'http://142.93.131.22:8545'
 web3Provider = 'http://127.0.0.1:8545/'
 
 try:
@@ -54,37 +44,112 @@ def getTokenContractAddress():
     return _address
 
 
-# def getNodeAddress():
-#     return web3.eth.accounts[meterID]
+# def getNodeAddress(meter_addr):
+#     return web3.eth.accounts[Web3.to_checksum_address(meter_addr)]
 
+def createAccount():
+    return web3.eth.account.create()
 
-def getBalance():
-    return tokenContract.balanceOf(web3.eth.accounts[meterID])
+def getBalance(meter_addr):
+    return tokenContract.functions.balanceOf(meter_addr).call()
 
 
 def getTotalSupply():
-    return tokenContract.totalSupply()
+    return tokenContract.functions.totalSupply().call() 
 
 
 def getSymbol():
-    return tokenContract.symbol()
+    return tokenContract.functions.symbol().call() 
 
 
 def getName():
     return tokenContract.functions.name().call()    #or tokenContract.functions['name'].call()
 
 
-def transfer(address_to, ammount):
-    return tokenContract.transfer(address_to, ammount, transact={'from': web3.eth.accounts[meterID]})
+def transfer(meter_addr,address_to, ammount):
+    return tokenContract.transfer(address_to, ammount, transact={'from': web3.eth.accounts[meter_addr]})
 
 
-def mintToken(value):
-    return tokenContract.mint(value, transact={'from': web3.eth.accounts[meterID]})
+def mintToken(account:LocalAccount,meter,value):
+    transaction = {
+        'nonce':web3.eth.get_transaction_count(account.address),
+        'gas': 2000000,
+        'maxFeePerGas': 2000000000,
+        'maxPriorityFeePerGas': 1000000000,
+    }
+    
+    contruct_data = tokenContract.functions.meterMint(value,meter).build_transaction(transaction)
+    signed_df_tx = account.sign_transaction(contruct_data)
+    web3.eth.send_raw_transaction(signed_df_tx.raw_transaction)  
 
 
-def burnToken(value):
-    return tokenContract.burn(value, transact={'from': web3.eth.accounts[meterID]})
+def burnToken(meter_addr,value):
+    return tokenContract.functions.burn(value, transact={'from': web3.eth.accounts[meter_addr]}).call()
 
+def enroleMeter(account:LocalAccount,meterAddress,ownerAddress):
+    transaction = {
+        'nonce':web3.eth.get_transaction_count(account.address),
+        'gas': 2000000,
+        'maxFeePerGas': 2000000000,
+        'maxPriorityFeePerGas': 1000000000,
+    }
+    
+    contruct_data = tokenContract.functions.enroleMeter(meterAddress, ownerAddress).build_transaction(transaction)
+    signed_df_tx = account.sign_transaction(contruct_data)
+    web3.eth.send_raw_transaction(signed_df_tx.raw_transaction)  
+
+def getmeterToOwner(meter_addr):
+    return tokenContract.functions.meterToOwner(meter_addr).call()    #or tokenContract.functions['name'].call()
+
+
+def mintTo(owner:LocalAccount,amount,recipient):
+    transaction = {
+        'nonce':web3.eth.get_transaction_count(owner.address),
+        'gas': 2000000,
+        'maxFeePerGas': 2000000000,
+        'maxPriorityFeePerGas': 1000000000,
+    }
+    
+    contruct_data = tokenContract.functions.mintTo(amount, recipient).build_transaction(transaction)
+    signed_df_tx = owner.sign_transaction(contruct_data)
+    web3.eth.send_raw_transaction(signed_df_tx.raw_transaction) 
+
+################ nft ####################################
+def BidSubmit(account:LocalAccount,quantity,price):
+    transaction = {
+        'nonce':web3.eth.get_transaction_count(account.address),
+        'gas': 2000000,
+        'maxFeePerGas': 2000000000,
+        'maxPriorityFeePerGas': 1000000000,
+    }
+    
+    contruct_data = tokenContract.functions.BidSubmit({'quantity':quantity, 'price':price}).build_transaction(transaction)
+    signed_df_tx = account.sign_transaction(contruct_data)
+    web3.eth.send_raw_transaction(signed_df_tx.raw_transaction) 
+
+def offerSubmit(account:LocalAccount,quantity,price):
+    transaction = {
+        'nonce':web3.eth.get_transaction_count(account.address),
+        'gas': 2000000,
+        'maxFeePerGas': 2000000000,
+        'maxPriorityFeePerGas': 1000000000,
+    }
+    
+    contruct_data = tokenContract.functions.offerSubmit({'quantity':quantity, 'price':price}).build_transaction(transaction)
+    signed_df_tx = account.sign_transaction(contruct_data)
+    web3.eth.send_raw_transaction(signed_df_tx.raw_transaction) 
+
+def settleDataContract(owner:LocalAccount):
+    transaction = {
+        'nonce':web3.eth.get_transaction_count(owner.address),
+        'gas': 2000000,
+        'maxFeePerGas': 2000000000,
+        'maxPriorityFeePerGas': 1000000000,
+    }
+    
+    contruct_data = tokenContract.functions.settleDataContract().build_transaction(transaction)
+    signed_df_tx = owner.sign_transaction(contruct_data)
+    web3.eth.send_raw_transaction(signed_df_tx.raw_transaction) 
 
 def getFunctions():
     return tokenContract.all_functions()

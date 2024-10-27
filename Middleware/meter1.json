@@ -1,0 +1,11 @@
+{
+    "name":"meter1",
+    "address":"0xcC44feEDb0918c17E90c4A6134f310edaeCD334b",
+    "pri_key":"b6e0e4c84e554a462b506b68446f5ba2da3d0cbae3d5558b50cbd5cfe6f84e72",
+    "simulation":{
+        "isConsuming":true,
+        "current": 1,
+        "voltage": 220
+    }
+
+}
