@@ -1,20 +1,10 @@
-# Sample Hardhat Project
-
-This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, and a Hardhat Ignition module that deploys that contract.
-
-Try running some of the following tasks:
-
-```shell
-npx hardhat help
-npx hardhat test
-REPORT_GAS=true npx hardhat test
-npx hardhat node
-npx hardhat ignition deploy ./ignition/modules/Lock.js
-```
-#build
+#install openzeppelin
+npm install @openzeppelin/contracts
+npx hardhat init    #create empty project
 npx hardhat compile
 #run a local node:
 npx hardhat node
+#build
+npx hardhat compile
 #deploy:
 npx hardhat ignition deploy ./ignition/modules/EsoToken.js --network localhost
-

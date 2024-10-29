@@ -1,51 +1,6 @@
 # meterblock
 **Blockchain facilitated energy exchange for open-grid applications**
-
-meterBlock is a collaborative project that aims to provide a decentralised platform to facilitate the
-governance of electrical energy consumption and production, measured and controlled by
-Distributed Ledger Technology (DLT) connected power meters. The goal of the project is to build
-a Proof-of-Concept (PoC) prototype device running on the Ethereum blockchain to facilitate this
-energy governance. The project commenced on the 1st of July 2018 and will run to completion
-eight weeks later on the 26th of August 2018.
-
-A primary use of this technology is to provide a platform of energy exchange between producers
-and consumers within self-sustaining micro-grids, trading surplus energy between one another.
-Full scale implementation involves replacing the current national grid’s management system,
-whereby each individual entity can act as both a consumer and producer, governed by the
-blockchain, enabling a novel, trustless, decentralised, energy exchange marketplace. These
-entities could include, but are not limited to: pure producer - such as power utilities (Eskom) - pure
-consumer - such as manufacturing plants or traditional households - or producer/consumer - such
-as gated communities, households, hospitals, shopping centres etc. with installed sources of
-renewable energy.
-
-The project will run on an Ethereum based blockchain (such as Quorum) and will implement the
-tokenization of an energy unit through an adaptation of the ERC20 token standard.
-meterBlock lays the foundations for future collaborative work when taken to its logical extreme at
-a national grid level. This report discusses the inherent issues that must be considered before full
-scale implementation of a DLT-based system can be put into production. Some of these issues
-relate to the practicalities and complexities of implementation when considering application at a
-national grid level, but can also be extended to the legal and regulatory factors and their broader
-economic impacts.
-
-A link to the final implemenation report can be found [here](https://github.com/SoIidarity/meterblock/blob/master/Documents/Final%20Report.pdf)
-
-## Check out a demo of the implementation in the videos below! 📹
-[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/N4H9XTRg-ac/0.jpg)](https://www.youtube.com/watch?v=N4H9XTRg-ac)
-[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/1dpFzMbEzDI/0.jpg)](https://www.youtube.com/watch?v=1dpFzMbEzDI)
-
-## meterblock's Full technology stack can be seen below.
-
-<p align="center">
-  <img src="https://github.com/SoIidarity/meterblock/blob/master/Images/Systemarchitecture-SystemOverview.png?raw=true" alt="Sublime's custom image"/>
-</p>
-
-## System realization 
-<p align="center">
-  <img src="https://raw.githubusercontent.com/SoIidarity/meterblock/master/Images/Testing%20Setup.jpg" alt="implementation"/>
-</p>
-
-
-nus requirement:
+us requirement:
 Smart meters are the key devices in smart grid systems. They are used to measure the usage of electricity and communicate with the power plant for other functionalities such as calculating the bills,
  bidding the price, demanding the amount of the electricity ect. A severe concern of deploying such smart devices is that the information collected by the smart meters are sent to the power plant which 
  may glimpse user privacy from the received data, e.g., a user is probably at home in the hours that the usage of the electricity is at peak. Therefore, a trusted mediator is a straightforward solution 
@@ -53,3 +8,27 @@ Smart meters are the key devices in smart grid systems. They are used to measure
  above mentioned tasks. This project aims to 
 (1) Design a blockchain based mediator for the smart grid system which provide better privacy for users 
 (2) Formally verify the security and privacy of the design
+
+# Sample Hardhat Project
+
+This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, and a Hardhat Ignition module that deploys that contract.
+
+Try running some of the following tasks:
+
+```shell
+npx hardhat help
+npx hardhat test
+REPORT_GAS=true npx hardhat test
+npx hardhat node
+npx hardhat ignition deploy ./ignition/modules/Lock.js
+```
+#run a local node:
+npx hardhat node
+#build
+npx hardhat compile
+#deploy:
+npx hardhat ignition deploy ./ignition/modules/EsoToken.js --network localhost
+#example
+python3 tool.py
+
+
