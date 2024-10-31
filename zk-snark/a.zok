@@ -1,0 +1,81 @@
+import "hashes/sha256/sha256Padded" as sha256;    //def main<N>(u8[N] input) -> u32[8]
+import "utils/casts/u64_to_bits" as u64_to_bits;
+import "utils/casts/u8_from_bits" as u8_from_bits;  //def main(bool[8] a) -> u8
+struct Quote {
+    u64 price;
+    u64 quantity;
+}
+struct Commit{
+    u32[8] price;
+    u32[8] quantity;
+}
+
+// find if target exists in arr
+def contains(Commit target, Commit[10] arr) -> bool {
+    bool mut result = false;
+    for u32 i in 0..10 {
+        result = result ? true : (arr[i] == target);
+    }
+    return result; 
+}
+// convert
+def u64_to_u8_8(u64 a) -> u8[8] {
+    u8[8] mut u8_8 = [0;8];
+    bool[64] mut u64_bits = u64_to_bits(a);
+    bool[8] mut bool8 = [true;8];
+    for u32 j in 0..8{
+        bool8 = u64_bits[8*j..8*j+8];
+        u8_8[j]= u8_from_bits(bool8);
+    }
+    return u8_8;
+}
+
+def check_commit_existence(Quote[5] quote, Commit[10] commits)->bool{
+    u32[8] signature_zero = [0;8];
+    u8[8] mut u8_8 = [0;8];
+    Commit mut tmp = Commit{price:signature_zero, quantity: signature_zero};
+    for u32 i in 0..5 {
+        u8_8 = u64_to_u8_8(quote[i].price);
+        tmp.price = sha256(u8_8);
+        u8_8 = u64_to_u8_8(quote[i].quantity);
+        tmp.quantity = sha256(u8_8);
+        log("Eprice is {}, Equantity is {}", tmp.price, tmp.quantity);
+        assert(quote[i].price == 0 || contains(tmp, commits));
+    }
+    return true;
+}
+def main(u64 marginal_price, private Quote[5] bids, private Quote[5] offers){//, Commit[10] commits) {
+    // check the order
+    for u32 i in 1..5 {
+        assert(bids[i].price == 0 || bids[i].price>=bids[i-1].price);
+        assert(offers[i].price == 0 || offers[i].price>=offers[i-1].price); 
+    }
+    bool mut t = check_commit_existence(bids,commits);
+    t = check_commit_existence(offers,commits);
+
+    u64 mut demand=0;
+    u64 mut supply=0;
+    u64 mut demand_next=0;
+    u64 mut supply_pre=0;
+    for u32 i in 1..6 {
+        log("bid price {}, quantity {}",bids[i].price,bids[i].quantity);
+        demand = bids[5-i].price >= marginal_price ? demand+bids[5-i].quantity : demand;
+    }
+    // if take one more bid
+    demand_next = bids[0].quantity;
+    for u32 i in 1..5 {
+        demand_next = bids[4-i].price >= marginal_price ? demand_next+bids[4-i].quantity : demand_next;
+    }
+    for u32 i in 0..5 {
+        supply = offers[i].price <= marginal_price ? supply+offers[i].quantity : supply;
+    }
+    // if take one less supply
+    for u32 i in 0..4 {
+        supply_pre = offers[i+1].price <= marginal_price ? supply_pre+offers[i].quantity : supply_pre;
+    }
+    log("demand is {}, demand_next is {}, supply is {}, supply_pre is {}", demand, demand_next,supply,supply_pre);
+    assert(demand<=supply);
+    assert(demand == demand_next || demand_next > supply);
+    assert(supply_pre== supply || supply_pre<demand);
+    return;    
+}

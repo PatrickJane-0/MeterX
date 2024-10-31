@@ -46,7 +46,7 @@ if __name__ == '__main__':
     bc.loadTokenContract(address=Contract_address,abi_file=abi_file)
     bc.mintTo(owner_account,80000,accounts[0].address)
     bc.BidSubmit(accounts[0] ,quantity=10000,price =7)
-    bc.BidSubmit(accounts[0] ,quantity=12500,price =7)
+    bc.BidSubmit(accounts[0] ,quantity=1250,price =7)
     bc.offerSubmit(accounts[1] ,quantity=1000,price =6)
     bc.offerSubmit(accounts[1] ,quantity=2000,price =7)
     bc.offerSubmit(accounts[1] ,quantity=9000,price =6)
